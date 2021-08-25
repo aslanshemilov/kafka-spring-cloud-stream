@@ -1,0 +1,43 @@
+# This would be my comments
+---
+spring:
+  application:
+    name: kafka-spring-cloud-stream
+  profiles:
+    active:
+      - local
+management:
+  cloudfoundary:
+    skip-ssl-validation: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: "/"
+  endpoint:
+    beans:
+      enabled: true
+# session timeout: Default value is 30 minutes
+server:
+  servlet:
+    session:
+      persistent: true
+      timeout: 15m
+
+---
+spring:
+  profiles: local
+  kafka:
+     consumer:
+        bootstrap-servers: 127.0.0.1:9092
+        group-id: group_id
+        auto-offset-reset: earliest
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.springframework.kafka.support.serializer.JsonSerializer
+     producer:
+        bootstrap-servers: 127.0.0.1:9092
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+---
+spring:
+  profiles: dev
